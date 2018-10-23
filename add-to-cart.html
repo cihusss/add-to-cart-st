@@ -1,0 +1,186 @@
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+  <style type="text/css">
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #wrapper {
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+    }
+
+    #wrapper a { text-decoration: none; }
+
+    #ad {
+      box-sizing: border-box;
+      background: url("http://www8.hp.com/us/en/images/LT_Pro_Composite_0000_1__281_29_tcm245_2192431_tcm245_2193389_tcm245-2192431.png");
+      background-size: cover;
+      background-position: center center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      flex-direction: column;
+      text-align: center;
+      border: 1px solid #b1b1b1;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    #ad h2 { margin: 0 0 -5px 0;
+      line-height: 1.2em;
+      font-size: 14px;
+      color: #000;
+      max-width: 220px;
+    }
+
+    #logo {
+      position: absolute;
+      top: 8px;
+      left: 6px;
+      width: 140px;
+    }
+
+    #action-box {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.9);
+      text-align: left;
+      width: 100%;
+      padding: 16px;
+    }
+
+    #button-wrapper {
+
+    }
+
+    #button {
+      background: #CA0813;
+      display: inline-block;
+      padding: 8px 16px;
+      /*border-radius: 20px;*/
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+    }
+
+    #value {
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      font-size: 9px;
+      color: white;
+      text-align: right;
+      background: black;
+      padding: 0 2px;
+    }
+
+    #price { font-weight: bold; color: #CA0813; font-size: 22px; vertical-align: text-top; margin-right: 15px; }
+
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="buffer">
+      <div id="ad">
+        <img src="https://www.cloudlock.com/wp-content/uploads/2015/04/Ofc365-rgb-Orng166-1024x355.png" id="logo">
+        <div id="action-box">
+          <h2 id="headline">Special offer - HP Pavilion (15-cs0064st) + Office 365</h2>
+          <span id="price">$729.98</span>
+          <div id="button-wrapper">
+            <div id="button">ADD TO CART</div>
+          <div id="value"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/index.js"></script>
+  <script>
+
+    //resize function fires on load and every window resize
+    function resizeAd(event) {
+     
+      // get wrapper width (again)
+      var wrapperWidth = document.getElementById("wrapper").parentNode.offsetWidth;
+      var wrapperHeight = document.getElementById("wrapper").parentNode.offsetHeight;
+
+      // make ad match iframe size
+      document.getElementById("ad").style.width = wrapperWidth + "px";
+      document.getElementById("ad").style.height = wrapperHeight + "px";
+      
+      // set ad width vars
+      var adWidth = document.getElementById("ad").offsetWidth;
+      var adHeight = document.getElementById("ad").offsetHeight;
+      
+      // figure out multiplier value for exact window size
+      var scale = Math.min(wrapperWidth, wrapperHeight) / Math.min(adWidth, adHeight);
+      
+      // set text var
+      var txt = wrapperWidth + " x " + wrapperHeight;
+      
+      // change layout at 600px breakpoint
+      if (wrapperWidth > 600 || wrapperHeight < 60) {
+        document.getElementById("action-box").style.width = "50%";
+        document.getElementById("action-box").style.height = "100%";
+        document.getElementById("action-box").style.right = "0";
+      }
+
+      // styles for tiny mobile sizes
+      if (wrapperHeight < 60) {
+        document.getElementById("ad").style.backgroundPosition = "-110px center";
+        document.getElementById("headline").style.margin = "0 0 2px 0";
+        document.getElementById("headline").style.fontSize = "10px";
+        document.getElementById("button").style.padding = "2px 8px";
+        document.getElementById("button").style.fontSize = "10px";
+        document.getElementById("action-box").style.width = "auto";
+        document.getElementById("action-box").style.padding = "12px";
+      }
+
+      // styles for 728x90
+      if (wrapperWidth == 728) {
+        document.getElementById("ad").style.backgroundPosition = "-180px center";
+        document.getElementById("headline").style.fontSize = "20px";
+        document.getElementById("button").style.padding = "4px 16px";
+        document.getElementById("action-box").style.width = "auto";
+      }
+
+      // styles for 970x60
+      if (wrapperWidth == 970 && wrapperHeight < 70 ) {
+        document.getElementById("ad").style.backgroundPosition = "0px 500px";
+        document.getElementById("action-box").style.flexDirection = "row";
+        document.getElementById("headline").style.alignSelf = "center";
+        document.getElementById("headline").style.fontSize = "16px";
+        document.getElementById("headline").style.margin = "0 -5px 0 0";
+        document.getElementById("button-wrapper").style.alignSelf = "center";
+      }
+
+      // scale ad according to multiplier
+      // document.getElementById("ad").style.transform = "scale(" + scale + ")";
+      
+      // inject text
+      document.getElementById("value").innerHTML = txt;
+      
+      console.log(adWidth + ":" + adHeight);
+    }
+
+    resizeAd();
+
+function pushToCart(event) {
+      parent.STAPLES.cartOverlay.addtoCartAjax([{"partNumber":"24327021","quantity":1,"catEntryId":""}, {"partNumber":"2239265","quantity":1,"catEntryId":""}], -1, undefined, undefined, "en-US");
+    }
+
+    document.getElementById("button").addEventListener('click', pushToCart);
+  </script>
